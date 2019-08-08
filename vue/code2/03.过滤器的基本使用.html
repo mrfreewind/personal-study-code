@@ -10,6 +10,8 @@
 <body>
     <div id="app">
         <p>{{msg|msgFormat2}}</p>
+        <p>{{msg|msgFormat3("疯狂")}}</p>
+        <p>{{msg|msgFormat|msgFormat4}}</p>
     </div>
     
     <script>
@@ -22,6 +24,15 @@
         Vue.filter("msgFormat2",function(msg){
             console.log(msg);
             return msg.replace(/单纯/g,"邪恶");
+        });
+
+        Vue.filter("msgFormat3",function(msg,arg){
+            console.log(msg);
+            return msg.replace(/单纯/g,arg);
+        });
+
+        Vue.filter("msgFormat4",function(msg){
+            return msg+"===============";
         });
 
         var vm=new Vue({

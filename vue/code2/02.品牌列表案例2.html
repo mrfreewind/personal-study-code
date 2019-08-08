@@ -59,7 +59,7 @@
                     <th>{{item.id}}</th>
                     <th>{{item.name}}</th>
                     <th v-text="item.name"></th>
-                    <th>{{item.ctime}}</th>
+                    <th>{{item.ctime|dateFormat}}</th>
                     <th>
                         <a href="" @click.prevent="deleteRecord(index)">删除</a>
                     </th>
@@ -69,6 +69,15 @@
 
     </div>
     <script>
+        // 过滤器定义在vm之前才会生效
+        Vue.filter("dateFormat",function(dateStr){
+            var dt=new Date(dateStr);
+            var y=dt.getFullYear();
+            var m=dt.getMonth();
+            var d=dt.getDay();
+            return `${y}-${m}-${d}`;
+        })
+
         var vm=new Vue({
             el:"#app",
             data() {
