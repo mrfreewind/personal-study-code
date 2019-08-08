@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <button @click="start">浪起来</button>
+            <button @click="stop">猥琐</button>
+        </div>
+        <div>
+            <h3>{{msg}}</h3>
+        </div>
+    </div>
+    <script>
+
+        //onload = function () {
+            var vm = new Vue({
+                el: "#app",
+                data: function () {
+                    return {
+                        msg: "别浪！猥琐发育,",
+                        isRunning: false,
+                        intervalId: 0
+                    }
+                },
+                methods: {
+                    start() {
+                        if (this.isRunning) {
+                            return;
+                        }
+                        this.isRunning = true;
+                        this.intervalId = setInterval(() => {
+                            this.msg = this.msg.substring(1) + this.msg.substring(0, 1);
+                            console.log(this.msg);
+                        }, 400);
+                    },
+                    stop: function () {
+                        if (this.isRunning) {
+                            clearInterval(this.intervalId);
+                            this.isRunning = false;
+                        }
+                    },
+                    lang() {
+                        this.msg = this.msg.substring(1) + this.msg.substring(0, 1);
+                        console.log(this.msg);
+                    }
+                }
+            })
+        //}
+
+
+    </script>
+</body>
+
+</html>

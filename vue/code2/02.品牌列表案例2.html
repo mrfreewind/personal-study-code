@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.min.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click="addRecord">
+
+                <label>
+                    搜索名字关键字:
+                    <input type="text" v-model="keyWords" class="form-control">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Name</th>
+                    <th>CTime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <!-- <tbody>
+                <tr v-for="(item,index) in list" :key=item.id>
+                    <th>{{item.id}}</th>
+                    <th>{{item.name}}</th>
+                    <th v-text="item.name"></th>
+                    <th>{{item.ctime}}</th>
+                    <th>
+                        <a href="" @click.prevent="deleteRecord(index)">删除</a>
+                    </th>
+                </tr>
+            </tbody> -->
+            <tbody>
+                <tr v-for="(item,index) in searchList(keyWords)" :key=item.id>
+                    <th>{{item.id}}</th>
+                    <th>{{item.name}}</th>
+                    <th v-text="item.name"></th>
+                    <th>{{item.ctime}}</th>
+                    <th>
+                        <a href="" @click.prevent="deleteRecord(index)">删除</a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    msg:"hello",
+                    id:"",
+                    name:"",
+                    keyWords:"",
+                    list:[
+                        {id:1,name:"奔驰",ctime:new Date()},
+                        {id:2,name:"宝马",ctime:new Date()}
+                    ]
+                }
+            },
+            methods: {
+                addRecord(){
+                    this.list.push({id:this.id,name:this.name,ctime:new Date()});
+                    this.id="";
+                    this.name="";
+                },
+                deleteRecord(index){
+                    this.list.splice(index,1);
+                    return;
+
+                    //传值为id时，用下面的方式
+                    this.list.some((item,i)=>{
+                        if(item.id==index){
+                            this.splice(index,1);
+                            return true;
+                        }
+                    });
+                    return;
+                    
+                    //传值为id时，查找下标
+                    var index2=this.list.findIndex((item)=>{
+                        if(item.id==index){
+                            return true;
+                        }
+                    });
+                    this.list.splice(index2,1);
+                    return;
+                    //
+                },
+                searchList(key1){
+                    // console.log("XXXXX:"+key1+"********");
+                    // var dataList=[];
+                    // this.list.forEach(item => {
+                    //     if(item.name.indexof(key1) !=-1){
+                    //         dataList.push(item);
+                    //     }
+                    // });
+                    // return dataList;
+                    var dataList=[];
+                    this.list.filter(item=>{
+                        if(item.name.includes(key1)) dataList.push(item);
+                    })
+                    return dataList;
+                }
+            }
+        });
+        Vue.filter("过滤器名称",function(data){
+            //过滤器方法
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <a href="http://www.baidu.com" @click="herfClick">去百度</a>
+        <a href="http://www.baidu.com" @click.stop="herfClick">去百度</a>
+        <a href="http://www.baidu.com" @click.prevent="herfClick">去百度</a>
+        <a href="http://www.baidu.com" @click.prevent.once="herfClick">去百度</a>
+        <div @click.self="somethingClick">
+            <div @click="somethingClick">
+                <input type="button" value="点击一下" @click="somethingClick">
+                <input type="button" value="点击一下" @click.stop="somethingClick">
+                <input type="button" value="点击一下" @click="somethingClick">
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data:{
+
+            },
+            methods: {
+                herfClick(){
+                    console.log("herf click");
+                },
+                somethingClick(){
+                    console.log("something click");
+                }
+            },
+        })
+    </script>
+</body>
+</html>
