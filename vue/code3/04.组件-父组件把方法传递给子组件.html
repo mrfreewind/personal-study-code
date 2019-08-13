@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <com2 v-on:func="show"></com2>
+    </div>
+    <template id="tmp1"> 
+        <div>
+            <input type="button" value="点击" @click="myclick">
+        </div>
+    </template>
+
+    <script>
+        var com2={
+            template:"#tmp1",
+            methods: {
+                myclick(){
+                    this.$emit("func",123,123);
+                }
+            },
+        };
+
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                show(d1,d2){
+                    // 子组件通过调用父组件的接口，通过参数传值给父组件
+                    console.log('调用了父组件身上的show方法 '+d1+d2);
+                }
+            },
+            components:{
+                com2
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <!-- 父组件可以在引用子组件的时候通过属性绑定(v-bind)的形式传值 -->
+        <com1></com1>
+        <com1 v-bind:msg="msg"></com1>
+    </div>
+
+    <script>
+    var vm=new Vue({
+        el:"#app",
+        data() {
+            return {
+                msg:"hello"
+            }
+        },
+        methods: {
+            
+        },
+        components:{
+            com1:{
+                template:"<h3>这是子组件com1 --- {{msg}} ---- {{msg2}}</h3>",
+                // 接受父组件传值定义的参数名称,接受的值是只读的
+                props:[
+                'msg'
+                ],
+                // 子组件私有数据，可读可写
+                data(){
+                    return{
+                        msg2:"world"
+                    }
+                }
+            },
+        }
+    });
+    </script>
+</body>
+</html>

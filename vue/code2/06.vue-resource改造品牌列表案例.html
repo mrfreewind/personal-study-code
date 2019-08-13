@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.min.js"></script>
+    <script src="./lib/vue-resource.min.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" v-model="inputId" class="form-control">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" v-model="inputName" class="form-control">
+                </label>
+                
+                <input type="button" value="添加" @click="addRecord" class="btn btn-primary">
+            </div>
+        </div>
+
+        <table  class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in list">
+                    <th>{{item.id}}</th>
+                    <th>{{item.name}}</th>
+                    <th>{{item.ctime|dateFormat}}</th>
+                    <th>
+                        <a href="" @click.prevent="deleteRecord">删除</a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 配置全局根域名后，请求的相对路径前面不能带斜线 /
+        Vue.http.options.root="http://vue.studyit.io/";
+
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    inputId:"",
+                    inputName:"",
+                    list:[
+                        {id:1,name:"hello",ctime:new Date()},
+                        {id:2,name:"world",ctime:new Date()}
+                    ]
+                }
+            },
+            methods: {
+                deleteRecord(){
+
+                },
+                addRecord(){
+                    //this.list.push({id:this.inputId,name:this.inputName,ctime:new Date()});
+                    this.$http.post("api/addproduct",{name:this.name},{emulateJSON:true})
+                    .then(result=>{
+                        if(result.body.status===0){
+                            //success
+                            this.getAllList();
+                            this.name="";
+
+                        }else{
+                            alert("添加失败");
+                        }
+                    });
+                },
+                getAllList(){
+                    console.log("getAllList");
+                    this.$http.get("/api/getprodlist").then(result=>{
+                        var result=result.body;
+                        if(result.status===0){
+                            this.list=result.message;
+                        }else{
+
+                        }
+                    });
+                },
+            },
+            filters:{
+                dateFormat(value){
+                    var date=new Date(value);
+                    var y=date.getFullYear();
+                    var m=date.getMonth().toString().padStart(2,"0");
+                    var d=date.getDay().toString().padStart(2,"0");
+                    var h=date.getHours().toString().padStart(2,"0");
+                    var min=date.getMinutes().toString().padStart(2,"0");
+                    var s=date.getSeconds().toString().padStart(2,"0");
+                    return `${y}-${m}-${d} ${h}:${min}:${s}`;
+                }
+            },
+            created() {
+                this.getAllList();
+            },
+        })
+    </script>
+</body>
+</html>

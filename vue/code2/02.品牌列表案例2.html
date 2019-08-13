@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="./lib/vue.min.js"></script>
-    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    <script src="../lib/vue.min.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7.css">
 </head>
 <body>
     <div id="app">
@@ -22,13 +22,14 @@
                 </label>
                 <label>
                     Name:
-                    <input type="text" class="form-control" v-model="name">
+                    <input type="text" class="form-control" v-model="name" @keyup.f2="addRecord">  
                 </label>
                 <input type="button" value="添加" class="btn btn-primary" @click="addRecord">
 
                 <label>
                     搜索名字关键字:
-                    <input type="text" v-model="keyWords" class="form-control">
+                    <!-- vue中所有的指令，在调用的时候都以 v- 开头 -->
+                    <input type="text" v-model="keyWords" class="form-control" v-focus>
                 </label>
             </div>
         </div>
@@ -68,15 +69,44 @@
         </table>
 
     </div>
+    <div id="app2">
+        <!-- 调用全局过滤器 -->
+        <h3>{{dt|dateFormat}}</h3>
+        <!-- 调用私有过滤器 -->
+        <h3>{{dt|dateFormat5}}</h3>
+    </div>
+
     <script>
         // 过滤器定义在vm之前才会生效
         Vue.filter("dateFormat",function(dateStr){
             var dt=new Date(dateStr);
             var y=dt.getFullYear();
             var m=dt.getMonth();
-            var d=dt.getDay();
+            // padStart填充占位符（ES6 方法）
+            var d=dt.getDay().toString().padStart(2,'0');
             return `${y}-${m}-${d}`;
         })
+
+        // 自定义全局按键修饰符
+        Vue.config.keyCodes.f2=113
+
+        // 定义 自定义指令。定义时指令名称不需要加v-，调用的时候需要。
+        //参数1名称；参数2 对象，包含指令相关的函数
+        Vue.directive("focus",{
+            bind:function(el){//指令绑定到元素的时候执行一次
+                //每个函数第一个参数永远是el，表示绑定到指令的那个元素，是一个原生的js对象 
+                console.log("bind");
+                //el.focus();
+            },
+            inserted:function(el){//元素插入到dom时执行一次
+                console.log("inserted");
+                el.focus();
+            },
+            updated:function(){//当vnode更新时候执行
+                console.log("updated");
+            }
+        });
+
 
         var vm=new Vue({
             el:"#app",
@@ -140,6 +170,23 @@
         });
         Vue.filter("过滤器名称",function(data){
             //过滤器方法
+        });
+
+        var vm2=new Vue({
+            el:"#app2",
+            data() {
+                return {
+                    dt:new Date()
+                }
+            },
+            methods: {
+                
+            },
+            filters:{
+                dateFormat5(msg){
+                    return msg+" XXXXX";
+                }
+            }
         });
     </script>
 </body>

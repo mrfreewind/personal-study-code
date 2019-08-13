@@ -9,29 +9,44 @@
 </head>
 <body>
     <div id="app">
-        <!-- <h1>{{msg}}</h1> -->
-        <p v-for="item in list">{{item.name}}</p>
-
-        <p v-for="(item,i) in list">{{item}} ---- 下标{{i}}</p>
-
-        
-     
+        <p>{{msg}}</p>
+        <com1></com1>
+        <com2></com2>
+        <mylogin></mylogin>
     </div>
 
+    <template id="tmp2">
+        <h3>com2 from tmp2</h3>
+    </template>
+
     <script>
+        var login={
+            template:"<h3>login</h3>"
+        }
+
+        Vue.component("com1",{
+            template:"<h3>com1组件</h3>"
+        });
+
+        Vue.component("com2",{
+            template:"#tmp2"
+        });
+
+
         var vm=new Vue({
             el:"#app",
             data() {
                 return {
-                    msg:"hello",
-                    list:[{name:"liu",password:"123"},{name:"xiao",password:"456"}]    
+                    msg:"hello"
                 }
             },
             methods: {
                 
             },
-        })
-        
+            components:{
+                mylogin:login
+            }
+        }); 
     </script>
 </body>
 </html>

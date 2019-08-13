@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p id="p1">{{msg}}</p>
+    </div>
+
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    msg:"hello"
+                }
+            },
+            methods: {
+                
+            },
+            beforeCreate() {
+                //实例创建的第1个生命周期函数。
+                //自定义的数据和方法均未初始化
+                console.log("beforeCreate "+this.msg);
+            },
+            created() {
+                //实例创建的第2个生命周期函数。
+                //自定义的数据和方法初始化完成
+                console.log("created "+this.msg);
+            },
+            beforeMount() {
+                //实例创建的第3个生命周期函数。
+                //未更新UI
+                console.log("beforeMount "+document.getElementById("p1").innerText);
+            },
+            mounted() {
+                //实例创建的最后一个生命周期函数。
+                //首次更新UI
+                console.log("mounted "+document.getElementById("p1").innerText);
+                this.msg="world";
+            },
+            beforeUpdate() {
+                //数据变化，准备更新到UI
+                console.log("beforeUpdate 页面值："+document.getElementById("p1").innerText);
+                console.log("beforeUpdate 新值："+this.msg);
+            },
+            updated() {
+                //数据变化，更新到UI
+                console.log("updated 页面值："+document.getElementById("p1").innerText);
+                console.log("updated 新值："+this.msg);
+            },beforeDestroy() {
+                console.log("beforeDestroy "+this.msg);
+            },
+            destroyed() {
+                console.log("beforeDestroy "+this.msg);
+            },
+        })
+    </script>
+</body>
+</html>
