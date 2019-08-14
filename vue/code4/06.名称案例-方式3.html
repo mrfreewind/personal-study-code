@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label>
+                First Name:
+                <input type="text" v-model="firstName"> 
+            </label>
+            <label>
+                    Last Name:
+                    <input type="text" v-model="lastName">
+            </label>
+            <label>
+                    Full Name:
+                    <input type="text" v-model="fullName">
+            </label>
+            <input type="button" value="合成" @click="getFullName">
+        </div>
+    </div>
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    firstName:"",
+                    lastName:""
+                }
+            },
+            methods: {
+                getFullName(){
+                    this.fullName=this.lastName+' '+this.firstName;
+                }
+            },
+            // 计算属性，本质是一个方法。使用时，把它们的名称直接当作属性来使用。
+            computed: {
+                // 只要function内部所用到的数据发生变化，就会立即重新计算这个属性的值
+                // 属性值会缓存，方便下次直接使用。
+                fullName:function(){
+                    return this.lastName+' '+this.firstName;
+                }
+            },
+        });
+    </script>
+</body>
+</html>

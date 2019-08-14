@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--  -->
+        <router-link to="/login/12/szz">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <transition>
+            <router-view></router-view>
+        </transition>
+    </div>
+
+    <template id="loginTmp">
+        <h3>登录界面 + {{$route.params.id}} + {{$route.params.name}}</h3>
+    </template>
+
+    <template id="registerTmp">
+        <h3>注册界面</h3>
+    </template>
+    <script>
+        var login={
+            template:"#loginTmp"
+        };
+
+        var register={
+            template:"#registerTmp"
+        };
+
+        var routerObj=new VueRouter({
+            //不要写成routers
+            routes:[
+                {path:'/',redirect:'/login'},
+                {path:'/login/:id/:name',component:login},
+                {path:'/register',component:register}
+            ]
+        });
+
+        var vm=new Vue({
+            el:"#app",
+            data() {
+                return {
+                    
+
+                }
+            },
+            methods: {
+                
+            },
+            router:routerObj
+        });
+    </script>
+</body>
+</html>
